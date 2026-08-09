@@ -1,0 +1,742 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="robots" content="noindex, nofollow, noarchive">
+  <meta name="theme-color" content="#0a2423">
+  <title>Opus | Q3 Partner Positioning</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --forest: #0a2423;
+      --forest-deep: #061a19;
+      --cream: #f4f0e6;
+      --cream-soft: #d8d5cb;
+      --lime: #c7f45b;
+      --line: rgba(244, 240, 230, 0.24);
+      --sans: Arial, Helvetica, sans-serif;
+      --serif: Georgia, "Times New Roman", serif;
+      --ease: cubic-bezier(.2, .75, .25, 1);
+    }
+
+    * { box-sizing: border-box; }
+
+    html, body {
+      width: 100%;
+      height: 100%;
+      margin: 0;
+      overflow: hidden;
+      background: var(--forest-deep);
+      color: var(--cream);
+      font-family: var(--sans);
+    }
+
+    button { font: inherit; }
+
+    .deck {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      min-height: 100svh;
+      isolation: isolate;
+      touch-action: pan-y;
+      background: var(--forest);
+    }
+
+    .slide {
+      position: absolute;
+      inset: 0;
+      display: grid;
+      grid-template-rows: auto 1fr auto;
+      gap: clamp(24px, 4vh, 48px);
+      padding: clamp(26px, 5vh, 52px) clamp(26px, 5.6vw, 84px) clamp(88px, 13vh, 112px);
+      visibility: hidden;
+      opacity: 0;
+      transform: translateX(2.4%);
+      pointer-events: none;
+      overflow: hidden;
+      background: var(--forest);
+      transition: opacity 260ms var(--ease), transform 420ms var(--ease), visibility 0s linear 420ms;
+    }
+
+    .slide.is-active {
+      visibility: visible;
+      opacity: 1;
+      transform: translateX(0);
+      pointer-events: auto;
+      transition-delay: 0s;
+      z-index: 2;
+    }
+
+    .slide::after {
+      content: "";
+      position: absolute;
+      width: min(48vw, 660px);
+      aspect-ratio: 1;
+      right: -16vw;
+      top: -28vw;
+      border: 1px solid var(--line);
+      border-radius: 50%;
+      pointer-events: none;
+    }
+
+    .masthead {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .wordmark {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--cream);
+      font-family: var(--serif);
+      font-size: clamp(24px, 2.4vw, 34px);
+      line-height: 1;
+      letter-spacing: -0.03em;
+    }
+
+    .wordmark::before {
+      content: "✣";
+      color: var(--lime);
+      font-family: var(--sans);
+      font-size: 0.78em;
+      font-weight: 400;
+    }
+
+    .wordmark em {
+      color: var(--lime);
+      font-style: normal;
+    }
+
+    .chapter {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      color: var(--cream-soft);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+
+    .chapter::before {
+      content: "";
+      width: 42px;
+      height: 1px;
+      background: var(--line);
+    }
+
+    .content {
+      position: relative;
+      z-index: 1;
+      min-height: 0;
+      min-width: 0;
+      display: grid;
+      align-items: center;
+    }
+
+    .content > * { min-width: 0; }
+
+    h1 {
+      margin: 0;
+      max-width: 1110px;
+      overflow-wrap: normal;
+      font-family: var(--serif);
+      font-size: clamp(50px, 6vw, 84px);
+      font-weight: 400;
+      line-height: 0.98;
+      letter-spacing: -0.045em;
+      text-wrap: balance;
+    }
+
+    h1 .accent {
+      color: var(--lime);
+      font-style: italic;
+    }
+
+    .points {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .point {
+      position: relative;
+      color: var(--cream);
+      font-size: clamp(20px, 2.1vw, 30px);
+      line-height: 1.25;
+      letter-spacing: -0.02em;
+      text-wrap: pretty;
+    }
+
+    .point small {
+      display: block;
+      margin-bottom: 6px;
+      color: var(--lime);
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+    }
+
+    .slide-footer {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 24px;
+      color: rgba(244, 240, 230, 0.56);
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+    }
+
+    .slide-footer span:last-child { color: var(--lime); }
+
+    /* Slide 1: manifesto */
+    .s1 .content {
+      grid-template-columns: minmax(0, 1.45fr) minmax(300px, 0.7fr);
+      gap: clamp(52px, 8vw, 120px);
+    }
+
+    .s1 h1 { max-width: 900px; }
+
+    .s1 .points {
+      border-top: 1px solid var(--line);
+    }
+
+    .s1 .point {
+      padding: 18px 0 18px 34px;
+      border-bottom: 1px solid var(--line);
+      font-size: clamp(18px, 1.7vw, 25px);
+    }
+
+    .s1 .point::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 27px;
+      width: 12px;
+      height: 12px;
+      border: 1px solid var(--lime);
+      border-radius: 50%;
+    }
+
+    .s1 .point:first-child::before { background: var(--lime); }
+
+    /* Slide 2: category spectrum */
+    .s2 .content {
+      grid-template-rows: auto 1fr;
+      gap: clamp(36px, 7vh, 74px);
+      align-items: start;
+    }
+
+    .s2 h1 { max-width: 900px; }
+
+    .spectrum {
+      position: relative;
+      align-self: end;
+      display: grid;
+      grid-template-columns: 0.85fr 1fr 1.4fr;
+      border-top: 1px solid var(--line);
+    }
+
+    .spectrum::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: -2px;
+      height: 3px;
+      background: linear-gradient(90deg, transparent 0 55%, var(--lime) 55% 100%);
+      opacity: 0.9;
+    }
+
+    .spectrum .point {
+      min-height: 152px;
+      padding: 28px 30px 8px 0;
+      margin-right: 30px;
+      border-right: 1px solid var(--line);
+    }
+
+    .spectrum .point:last-child {
+      margin-right: 0;
+      padding-right: 0;
+      border-right: 0;
+      color: var(--lime);
+    }
+
+    .spectrum .point:last-child small { color: var(--cream); }
+
+    /* Slide 3: referral filter */
+    .s3 .content {
+      grid-template-columns: minmax(0, 0.95fr) minmax(420px, 1fr);
+      gap: clamp(50px, 9vw, 150px);
+    }
+
+    .s3 h1 { max-width: 760px; }
+
+    .s3 .points {
+      counter-reset: referral;
+      border-top: 1px solid var(--line);
+    }
+
+    .s3 .point {
+      counter-increment: referral;
+      padding: 20px 0 20px 72px;
+      border-bottom: 1px solid var(--line);
+      font-size: clamp(19px, 1.85vw, 27px);
+    }
+
+    .s3 .point::before {
+      content: "0" counter(referral);
+      position: absolute;
+      left: 0;
+      top: 24px;
+      color: var(--lime);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+    }
+
+    /* Slide 4: ownership exchange */
+    .s4 .content {
+      grid-template-rows: auto 1fr;
+      gap: clamp(32px, 5vh, 56px);
+      align-items: start;
+    }
+
+    .s4 h1 { max-width: 1060px; }
+
+    .ownership {
+      align-self: end;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0;
+      border-top: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .ownership .point {
+      min-height: 154px;
+      padding: 30px 34px 20px 0;
+      margin-right: 34px;
+      border-right: 1px solid var(--line);
+    }
+
+    .ownership .point:last-child {
+      margin-right: 0;
+      padding-right: 0;
+      border-right: 0;
+    }
+
+    /* Slide 5: action */
+    .s5::before {
+      content: "↗";
+      position: absolute;
+      right: 4vw;
+      bottom: 1vh;
+      color: rgba(199, 244, 91, 0.07);
+      font-size: min(38vw, 480px);
+      line-height: 1;
+      pointer-events: none;
+    }
+
+    .s5 .content {
+      grid-template-columns: minmax(0, 1.25fr) minmax(360px, 0.75fr);
+      gap: clamp(60px, 10vw, 140px);
+    }
+
+    .s5 h1 { max-width: 880px; }
+
+    .s5 .points {
+      border-top: 1px solid var(--line);
+    }
+
+    .s5 .point {
+      padding: 18px 0;
+      border-bottom: 1px solid var(--line);
+      font-size: clamp(19px, 1.85vw, 27px);
+    }
+
+    .s5 .point:last-child {
+      color: var(--lime);
+      font-family: var(--serif);
+      font-size: clamp(24px, 2.4vw, 34px);
+    }
+
+    .controls {
+      position: fixed;
+      left: 50%;
+      bottom: max(18px, env(safe-area-inset-bottom));
+      z-index: 20;
+      display: grid;
+      grid-template-columns: 52px minmax(86px, auto) 52px;
+      align-items: center;
+      transform: translateX(-50%);
+      border: 1px solid rgba(244, 240, 230, 0.22);
+      background: rgba(6, 26, 25, 0.94);
+      box-shadow: 0 14px 34px rgba(0, 0, 0, 0.26);
+    }
+
+    .controls button {
+      width: 52px;
+      height: 48px;
+      border: 0;
+      background: transparent;
+      color: var(--cream);
+      cursor: pointer;
+      transition: color 140ms ease, background 140ms ease;
+    }
+
+    .controls button:hover { color: var(--forest-deep); background: var(--lime); }
+    .controls button:disabled { color: rgba(244, 240, 230, 0.22); cursor: default; background: transparent; }
+    .controls button:focus-visible { outline: 2px solid var(--lime); outline-offset: -4px; }
+
+    .counter {
+      display: flex;
+      align-items: baseline;
+      justify-content: center;
+      gap: 6px;
+      min-width: 86px;
+      height: 48px;
+      border-left: 1px solid rgba(244, 240, 230, 0.16);
+      border-right: 1px solid rgba(244, 240, 230, 0.16);
+      color: var(--cream-soft);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+    }
+
+    .counter strong { color: var(--lime); font-size: 16px; }
+
+    .progress {
+      position: fixed;
+      left: 0;
+      bottom: 0;
+      z-index: 25;
+      width: 20%;
+      height: 3px;
+      background: var(--lime);
+      transform-origin: left center;
+      transition: width 380ms var(--ease);
+    }
+
+    @media (max-width: 720px) {
+      .slide {
+        gap: 18px;
+        padding: max(22px, env(safe-area-inset-top)) 22px max(92px, calc(env(safe-area-inset-bottom) + 78px));
+      }
+
+      .slide::after {
+        width: 82vw;
+        right: -42vw;
+        top: -35vw;
+      }
+
+      .masthead { align-items: flex-start; }
+      .wordmark { font-size: 27px; }
+      .chapter { gap: 8px; font-size: 9px; letter-spacing: 0.13em; }
+      .chapter::before { width: 20px; }
+
+      h1 {
+        font-size: clamp(34px, 10.6vw, 43px);
+        line-height: 0.99;
+        letter-spacing: -0.043em;
+      }
+
+      .point {
+        font-size: clamp(17px, 4.7vw, 20px);
+        line-height: 1.22;
+      }
+
+      .content { align-items: start; }
+
+      .slide-footer {
+        align-items: center;
+        gap: 12px;
+        font-size: 8px;
+        letter-spacing: 0.13em;
+      }
+
+      .s1 .content,
+      .s3 .content,
+      .s5 .content {
+        grid-template-columns: minmax(0, 1fr);
+        grid-template-rows: auto 1fr;
+        gap: 26px;
+      }
+
+      .s1 .points,
+      .s3 .points,
+      .s5 .points { align-self: end; }
+
+      .s1 .point {
+        padding: 13px 0 13px 29px;
+        font-size: clamp(16px, 4.5vw, 19px);
+      }
+
+      .s1 .point::before { top: 19px; width: 10px; height: 10px; }
+
+      .s2 .content,
+      .s4 .content {
+        grid-template-rows: auto 1fr;
+        gap: 25px;
+      }
+
+      .spectrum,
+      .ownership {
+        align-self: end;
+        grid-template-columns: minmax(0, 1fr);
+        border-bottom: 0;
+      }
+
+      .spectrum::before {
+        left: -2px;
+        right: auto;
+        top: 0;
+        bottom: 0;
+        width: 3px;
+        height: auto;
+        background: linear-gradient(180deg, transparent 0 55%, var(--lime) 55% 100%);
+      }
+
+      .spectrum .point,
+      .ownership .point {
+        min-height: 0;
+        margin: 0;
+        padding: 13px 0 13px 18px;
+        border-right: 0;
+        border-bottom: 1px solid var(--line);
+        font-size: clamp(16px, 4.45vw, 19px);
+      }
+
+      .spectrum .point:last-child,
+      .ownership .point:last-child { padding: 13px 0 13px 18px; }
+
+      .s3 .point {
+        padding: 13px 0 13px 48px;
+        font-size: clamp(16px, 4.4vw, 19px);
+      }
+
+      .s3 .point::before { top: 17px; }
+
+      .s5 .point {
+        padding: 13px 0;
+        font-size: clamp(16px, 4.45vw, 19px);
+      }
+
+      .s5 .point:last-child { font-size: clamp(20px, 5.5vw, 24px); }
+      .s5::before { right: -8vw; bottom: 8vh; font-size: 72vw; }
+
+      .controls {
+        bottom: max(16px, env(safe-area-inset-bottom));
+        grid-template-columns: 48px 82px 48px;
+      }
+
+      .controls button { width: 48px; height: 48px; }
+      .counter { min-width: 82px; }
+    }
+
+    @media (max-height: 700px) and (orientation: landscape) {
+      .slide { padding-top: 26px; padding-bottom: 78px; gap: 18px; }
+      h1 { font-size: clamp(42px, 5.4vw, 68px); }
+      .spectrum .point, .ownership .point { min-height: 116px; padding-top: 20px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .slide, .progress { transition: none; }
+    }
+
+    @media print {
+      @page { size: 13.333in 7.5in; margin: 0; }
+      html, body { height: auto; overflow: visible; background: var(--forest); print-color-adjust: exact; -webkit-print-color-adjust: exact; }
+      .deck { height: auto; min-height: 0; }
+      .slide {
+        position: relative;
+        visibility: visible;
+        opacity: 1;
+        transform: none;
+        pointer-events: auto;
+        width: 13.333in;
+        height: 7.5in;
+        min-height: 7.5in;
+        page-break-after: always;
+        break-after: page;
+      }
+      .slide:last-of-type { page-break-after: auto; break-after: auto; }
+      .controls, .progress { display: none !important; }
+    }
+  </style>
+</head>
+<body>
+  <main class="deck" aria-label="Opus Q3 partner positioning deck">
+    <section class="slide s1 is-active" id="slide-1" data-slide="1" aria-hidden="false">
+      <header class="masthead">
+        <div class="wordmark">Opus<em>.</em></div>
+        <div class="chapter">Partner positioning</div>
+      </header>
+      <div class="content">
+        <h1>Opus places full-time Latin American operators <span class="accent">on U.S. teams.</span></h1>
+        <ul class="points">
+          <li class="point">They join the team. The client manages the work.</li>
+          <li class="point">Long-term roles, not freelance tasks or vendor pods.</li>
+          <li class="point">Opus can handle payroll and cross-border compliance.</li>
+        </ul>
+      </div>
+      <footer class="slide-footer"><span>Q3 partner conversation</span><span>Positioning</span></footer>
+    </section>
+
+    <section class="slide s2" id="slide-2" data-slide="2" aria-hidden="true">
+      <header class="masthead">
+        <div class="wordmark">Opus<em>.</em></div>
+        <div class="chapter">Category gap</div>
+      </header>
+      <div class="content">
+        <h1>There is a <span class="accent">missing middle</span> in offshore hiring.</h1>
+        <ul class="points spectrum">
+          <li class="point"><small>Defined tasks</small>VAs handle defined tasks.</li>
+          <li class="point"><small>Managed delivery</small>Pods and outsourcing firms manage delivery.</li>
+          <li class="point"><small>Role ownership</small>Opus places professionals who own a role inside the business.</li>
+        </ul>
+      </div>
+      <footer class="slide-footer"><span>Q3 partner conversation</span><span>Recognize the fit</span></footer>
+    </section>
+
+    <section class="slide s3" id="slide-3" data-slide="3" aria-hidden="true">
+      <header class="masthead">
+        <div class="wordmark">Opus<em>.</em></div>
+        <div class="chapter">Referral signal</div>
+      </header>
+      <div class="content">
+        <h1>Refer the company with a <span class="accent">real seat to fill.</span></h1>
+        <ul class="points">
+          <li class="point">The role needs judgment, ownership, and strong communication.</li>
+          <li class="point">Best fits include operations, finance, engineering, marketing, and customer teams.</li>
+          <li class="point">A manager is ready to lead the hire directly.</li>
+        </ul>
+      </div>
+      <footer class="slide-footer"><span>Q3 partner conversation</span><span>Identify the referral</span></footer>
+    </section>
+
+    <section class="slide s4" id="slide-4" data-slide="4" aria-hidden="true">
+      <header class="masthead">
+        <div class="wordmark">Opus<em>.</em></div>
+        <div class="chapter">Clear ownership</div>
+      </header>
+      <div class="content">
+        <h1>Opus finds the person. <span class="accent">The client builds the team.</span></h1>
+        <ul class="points ownership">
+          <li class="point"><small>Find</small>Opus sources and vets experienced Latin American talent.</li>
+          <li class="point"><small>Lead</small>The client selects, manages, and develops the hire.</li>
+          <li class="point"><small>Support</small>Opus can support payroll and local employment requirements.</li>
+        </ul>
+      </div>
+      <footer class="slide-footer"><span>Q3 partner conversation</span><span>Who owns what</span></footer>
+    </section>
+
+    <section class="slide s5" id="slide-5" data-slide="5" aria-hidden="true">
+      <header class="masthead">
+        <div class="wordmark">Opus<em>.</em></div>
+        <div class="chapter">The next step</div>
+      </header>
+      <div class="content">
+        <h1>Make one Opus introduction <span class="accent">this week.</span></h1>
+        <ul class="points">
+          <li class="point">A company has a full-time role to fill.</li>
+          <li class="point">The role needs an owner, not a task-taker.</li>
+          <li class="point">Email-introduce Opus and the hiring manager.</li>
+        </ul>
+      </div>
+      <footer class="slide-footer"><span>Q3 partner conversation</span><span>One qualified introduction</span></footer>
+    </section>
+
+    <nav class="controls" aria-label="Slide navigation">
+      <button id="prev" type="button" aria-label="Previous slide">←</button>
+      <div class="counter" aria-live="polite"><strong id="current">1</strong><span>/</span><span id="total">5</span></div>
+      <button id="next" type="button" aria-label="Next slide">→</button>
+    </nav>
+    <div class="progress" id="progress" aria-hidden="true"></div>
+  </main>
+
+  <script>
+    (() => {
+      const slides = Array.from(document.querySelectorAll('.slide'));
+      const previousButton = document.getElementById('prev');
+      const nextButton = document.getElementById('next');
+      const currentLabel = document.getElementById('current');
+      const progress = document.getElementById('progress');
+      let touchStartX = 0;
+      let touchStartY = 0;
+      const hashSlide = Number(location.hash.replace('#slide-', ''));
+      const savedSlide = Number(localStorage.getItem('opus-q3-slide'));
+      const startingIndex = Number.isInteger(hashSlide) && hashSlide >= 1 ? hashSlide - 1 : savedSlide;
+      let index = Math.max(0, Math.min(slides.length - 1, Number.isInteger(startingIndex) ? startingIndex : 0));
+
+      function render(nextIndex, updateHash = true) {
+        index = Math.max(0, Math.min(slides.length - 1, nextIndex));
+        slides.forEach((slide, slideIndex) => {
+          const active = slideIndex === index;
+          slide.classList.toggle('is-active', active);
+          slide.setAttribute('aria-hidden', String(!active));
+        });
+        currentLabel.textContent = String(index + 1);
+        previousButton.disabled = index === 0;
+        nextButton.disabled = index === slides.length - 1;
+        progress.style.width = `${((index + 1) / slides.length) * 100}%`;
+        localStorage.setItem('opus-q3-slide', String(index));
+        if (updateHash) history.replaceState(null, '', `#slide-${index + 1}`);
+        document.title = `Opus | Q3 Partner Positioning | ${index + 1} of ${slides.length}`;
+      }
+
+      function step(direction) { render(index + direction); }
+
+      previousButton.addEventListener('click', () => step(-1));
+      nextButton.addEventListener('click', () => step(1));
+
+      document.addEventListener('keydown', (event) => {
+        if (['ArrowRight', 'ArrowDown', 'PageDown', ' '].includes(event.key)) {
+          event.preventDefault();
+          step(1);
+        }
+        if (['ArrowLeft', 'ArrowUp', 'PageUp'].includes(event.key)) {
+          event.preventDefault();
+          step(-1);
+        }
+        if (event.key === 'Home') render(0);
+        if (event.key === 'End') render(slides.length - 1);
+      });
+
+      document.addEventListener('touchstart', (event) => {
+        const touch = event.changedTouches[0];
+        touchStartX = touch.clientX;
+        touchStartY = touch.clientY;
+      }, { passive: true });
+
+      document.addEventListener('touchend', (event) => {
+        const touch = event.changedTouches[0];
+        const deltaX = touch.clientX - touchStartX;
+        const deltaY = touch.clientY - touchStartY;
+        if (Math.abs(deltaX) > 48 && Math.abs(deltaX) > Math.abs(deltaY) * 1.25) step(deltaX < 0 ? 1 : -1);
+      }, { passive: true });
+
+      window.addEventListener('hashchange', () => {
+        const fromHash = Number(location.hash.replace('#slide-', '')) - 1;
+        if (Number.isInteger(fromHash)) render(fromHash, false);
+      });
+
+      window.OpusDeck = { goTo: (slideNumber) => render(Number(slideNumber) - 1), count: slides.length };
+      render(index);
+    })();
+  </script>
+</body>
+</html>
